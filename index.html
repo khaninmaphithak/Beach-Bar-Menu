@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Beach Bar Menu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600;700&family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream:#fbf8ef;
+  --teal:#16858a;
+  --dark:#133f5a;
+  --text:#243238;
+  --line:#7ec6c4;
+  --soft:#e8f5f3;
+  --blue:#0b7198;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--text);
+  font-family:Poppins,sans-serif;
+}
+.arabic{font-family:Cairo,sans-serif;direction:rtl}
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(251,248,239,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+.topbar-inner{
+  max-width:1500px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.brand{
+  font-family:"Playfair Display",serif;
+  font-size:26px;
+  color:var(--dark);
+  letter-spacing:2px;
+}
+button{
+  border:0;
+  padding:10px 18px;
+  border-radius:999px;
+  background:white;
+  color:var(--dark);
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+button.active{
+  background:var(--teal);
+  color:white;
+}
+.page{display:none}
+.page.active{display:block}
+.sheet{
+  max-width:1500px;
+  margin:20px auto;
+  padding:38px 28px 150px;
+  position:relative;
+  overflow:hidden;
+  min-height:90vh;
+  background:
+    radial-gradient(circle at top left, rgba(110,199,190,.22), transparent 24%),
+    radial-gradient(circle at top right, rgba(180,190,130,.18), transparent 22%),
+    rgba(255,255,255,.45);
+  border-radius:24px;
+}
+.logo{
+  text-align:center;
+  color:var(--dark);
+}
+.logo h1{
+  font-family:"Playfair Display",serif;
+  font-size:64px;
+  line-height:.9;
+  margin:0;
+}
+.logo p{
+  margin:8px 0 0;
+  color:var(--teal);
+  font-family:"Playfair Display",serif;
+  font-size:26px;
+}
+.layout-food{
+  display:grid;
+  grid-template-columns:220px repeat(3,1fr);
+  gap:28px;
+  position:relative;
+  z-index:2;
+}
+.layout-drinks{
+  display:grid;
+  grid-template-columns:1.15fr repeat(3,1fr);
+  gap:28px;
+  position:relative;
+  z-index:2;
+}
+.column{display:flex;flex-direction:column;gap:28px}
+.section h2{
+  margin:0 0 14px;
+  font-family:"Playfair Display",serif;
+  color:var(--dark);
+  font-size:25px;
+  border-bottom:2px solid var(--line);
+  padding-bottom:7px;
+}
+.section h2 span{
+  color:var(--teal);
+  float:right;
+  font-family:Cairo,sans-serif;
+  font-size:23px;
+}
+.food-item{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:14px;
+  margin-bottom:17px;
+}
+.food-item h3{
+  margin:0 0 4px;
+  font-size:17px;
+}
+.food-item p{
+  margin:0;
+  font-size:13.5px;
+  line-height:1.45;
+}
+.price{
+  color:var(--teal);
+  font-size:20px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.ar-box{text-align:right}
+.addon{
+  background:var(--soft);
+  border-radius:14px;
+  padding:12px;
+}
+.drink-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  padding:5px 0;
+  border-bottom:1px dotted rgba(22,133,138,.45);
+}
+.drink-row strong{color:var(--teal)}
+.drink-desc{
+  font-size:13px;
+  margin:2px 0 8px;
+  color:#333;
+}
+.happy{
+  border:2px solid var(--teal);
+  background:#f3fbfa;
+  border-radius:30px;
+  padding:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+.happy h2{
+  text-align:center;
+  font-size:36px;
+  border:0;
+  padding:0;
+  margin:0;
+}
+.happy .time{
+  text-align:center;
+  font-weight:800;
+  margin:8px 0 16px;
+}
+.happy-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.happy-box{
+  background:white;
+  border:1.5px solid rgba(22,133,138,.35);
+  border-radius:18px;
+  padding:12px;
+}
+.happy-box h3{
+  margin:0 0 8px;
+  color:var(--dark);
+  border-bottom:1px solid var(--line);
+  padding-bottom:5px;
+  font-family:"Playfair Display",serif;
+}
+.leaf{
+  position:absolute;
+  font-size:90px;
+  opacity:.35;
+  z-index:1;
+}
+.leaf.tl{top:20px;left:20px}
+.leaf.tr{top:20px;right:20px}
+.leaf.br{bottom:90px;right:20px}
+.waves{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:130px;
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 20%),
+    radial-gradient(120% 80px at 20% 30%, #c9eff0 35%, transparent 36%),
+    radial-gradient(120% 90px at 60% 45%, #79d2de 35%, transparent 36%),
+    linear-gradient(to bottom,#44b7cc,#0b7198);
+  z-index:0;
+}
+@media(max-width:1100px){
+  .layout-food,.layout-drinks{grid-template-columns:1fr}
+  .food-item{grid-template-columns:1fr}
+  .ar-box{text-align:left}
+  .happy-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">BEACH BAR MENU</div>
+    <div>
+      <button class="tab active" onclick="showPage('food',this)">Food Menu</button>
+      <button class="tab" onclick="showPage('drinks',this)">Drinks Menu</button>
+    </div>
+  </div>
+</div>
+
+<section id="food" class="page active">
+  <div class="sheet">
+    <div class="leaf tl">🌿</div><div class="leaf tr">🌿</div><div class="leaf br">🌿</div>
+
+    <div class="layout-food">
+      <div class="logo">
+        <h1>BEACH<br>BAR</h1>
+        <p>≈≈≈</p>
+        <p>FOOD MENU</p>
+        <p class="arabic">قائمة الطعام</p>
+      </div>
+
+      <div class="column">
+        <div class="section">
+          <h2>BEACH BITES <span>مقبلات</span></h2>
+          <div class="food-item"><div><h3>French Fries</h3><p>Skin on / Wedges / Sweet Potatoes</p></div><div class="price">35</div><div class="arabic ar-box"><h3>بطاطس مقلية</h3><p>بقشرها / ويدجز / بطاطا حلوة</p></div></div>
+          <div class="food-item"><div><h3>Mozzarella Sticks</h3><p>Marinara Sauce</p></div><div class="price">70</div><div class="arabic ar-box"><h3>أصابع موزاريلا</h3><p>صوص مارينارا</p></div></div>
+          <div class="food-item"><div><h3>Guacamole & Chips</h3><p>Jalapeno, Tomato, Pomegranate, Tortilla Chips</p></div><div class="price">60</div><div class="arabic ar-box"><h3>جواكامولي مع رقائق التورتيلا</h3><p>هالبينو، طماطم، رمان، رقائق تورتيلا</p></div></div>
+          <div class="food-item"><div><h3>Sticky Wings</h3><p>Spicy N Sweet Chicken Wings, White Sesame, Chives, Korean BBQ Sauce</p></div><div class="price">65</div><div class="arabic ar-box"><h3>أجنحة دجاج لزجة</h3><p>أجنحة دجاج حارة وحلوة، سمسم أبيض، ثوم معمر، صوص باربيكيو كوري</p></div></div>
+        </div>
+
+        <div class="section">
+          <h2>BURGERS <span>برغر</span></h2>
+          <div class="food-item"><div><h3>Signature Cheese Burger</h3><p>Beef Patty, Cheddar, Lettuce, Tomato, Onion, Special Sauce, Pickles</p></div><div class="price">85 / 100</div><div class="arabic ar-box"><h3>برغر الجبن الخاص</h3><p>قطعة لحم بقري، جبنة شيدر، خس، طماطم، بصل، صوص خاص، مخلل</p></div></div>
+          <div class="food-item"><div><h3>Beyond Hawaiian</h3><p>Plant Based Patty, Grilled Pineapple Salsa, Avocado, Lettuce, Tomato, Onion, Spinach bun, Teriyaki</p></div><div class="price">85</div><div class="arabic ar-box"><h3>برغر هاواي نباتي</h3><p>قطعة نباتية، صلصة أناناس مشوي، أفوكادو، خس، طماطم، بصل، خبز سبانخ، صوص ترياكي</p></div></div>
+          <div class="food-item"><div><h3>Crispy Chicken</h3><p>Crispy Chicken Stripes, Cole Slaw, Lettuce, Tomato</p></div><div class="price">75</div><div class="arabic ar-box"><h3>برغر دجاج مقرمش</h3><p>قطع دجاج مقرمشة، كول سلو، خس، طماطم</p></div></div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section">
+          <h2>SALADS <span>السلطات</span></h2>
+          <div class="food-item"><div><h3>Poke Bowl</h3><p>Mixed Green, Brown Rice, Sliced Avocado, Mango Salsa, Red Radish, Edamame, Pickled Cucumber, Wasabi, Ponzu Dressing</p></div><div class="price">55</div><div class="arabic ar-box"><h3>بوكيه بول</h3><p>خضار مشكلة، أرز بني، شرائح أفوكادو، صلصة مانجو، فجل أحمر، إدامامي، خيار مخلل، واسابي، صوص بونزو</p></div></div>
+          <div class="food-item"><div><h3>Beach Quinoa Salad</h3><p>Mesclun leaves, Avocado, Quinoa, Asparagus, Carrot, Tomatoes, Walnut, Corn, Radish, Edamame</p></div><div class="price">80</div><div class="arabic ar-box"><h3>سلطة الكينوا</h3><p>أوراق مسكلون، أفوكادو، كينوا، هليون، جزر، طماطم، جوز، ذرة، فجل، إدامامي</p></div></div>
+          <div class="food-item"><div><h3>Grilled Tuna</h3><p>Mesclun Leaves, Roasted Beets, Cherry Tomato, Asparagus, Avocado, Egg, Roasted Potatoes, White Beans, Olives, Lime Cilantro</p></div><div class="price">75</div><div class="arabic ar-box"><h3>تونة مشوية</h3><p>أوراق مسكلون، شمندر مشوي، طماطم كرزية، هليون، أفوكادو، بيض، بطاطس مشوية، فاصوليا بيضاء، زيتون، كزبرة مع الليمون</p></div></div>
+          <div class="food-item"><div><h3>Watermelon Feta Salad</h3><p>Watermelon, Feta, Balsamic Reduction, Cherry Tomato, Baby Arugula, Parsley Oil, Mint, Pine nuts</p></div><div class="price">65</div><div class="arabic ar-box"><h3>سلطة البطيخ مع جبنة فيتا</h3><p>بطيخ، جبنة فيتا، صوص بلسميك، طماطم كرزية، جرجير صغير، زيت بقدونس، نعناع، صنوبر</p></div></div>
+          <div class="addon"><div class="food-item"><div><h3>Add-Ons</h3><p>Shrimps, Chicken, Tofu, Marinated Salmon, Falafel</p></div><div class="price">25</div><div class="arabic ar-box"><h3>إضافات</h3><p>روبيان، دجاج، توفو، سلمون متبل، فلافل</p></div></div></div>
+        </div>
+
+        <div class="section">
+          <h2>SANDWICH & TACO <span>السندويشات والتاكو</span></h2>
+          <div class="food-item"><div><h3>Beach Bar Club Sandwich</h3><p>Toasted bread, Chicken breast, Veal Bacon, Egg, Tomato, Lettuce</p></div><div class="price">75</div><div class="arabic ar-box"><h3>كلوب ساندويتش بيتش بار</h3><p>خبز محمص، صدر دجاج، بيكون لحم عجل، بيض، طماطم، خس</p></div></div>
+          <div class="food-item"><div><h3>Crispy Fish Taco</h3><p>Deep fried king fish, guacamole, mango chili salsa, greens</p></div><div class="price">75</div><div class="arabic ar-box"><h3>تاكو سمك مقرمش</h3><p>سمك كنعد مقلي، جواكامولي، صلصة مانجو حارة، خضار</p></div></div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section">
+          <h2>WOOD OVEN PIZZA <span>بيتزا الفرن الحجري</span></h2>
+          <div class="food-item"><div><h3>Margherita</h3><p>Tomato Sauce, Mozzarella Cheese, Semi Dried Tomatoes, Oregano</p></div><div class="price">65</div><div class="arabic ar-box"><h3>مارغريتا</h3><p>صلصة طماطم، جبنة موزاريلا، طماطم مجففة جزئياً، أوريجانو</p></div></div>
+          <div class="food-item"><div><h3>Truffle Funghi</h3><p>Wild Mushroom, Truffle Oil, Mozzarella Cheese, Parmesan, White Mushroom Sauce, Thyme</p></div><div class="price">85</div><div class="arabic ar-box"><h3>ترافل بالفطر</h3><p>فطر بري، زيت ترافل، جبنة موزاريلا، بارميزان، صوص فطر أبيض، زعتر</p></div></div>
+          <div class="food-item"><div><h3>Texas</h3><p>Shredded BBQ Beef, Capsicum, Red Onion, Corn, Buffalo Cheese, Jalapeno, Fresh Cilantro</p></div><div class="price">85</div><div class="arabic ar-box"><h3>تكساس</h3><p>لحم بقري باربيكيو مفتت، فلفل رومي، بصل أحمر، ذرة، جبنة بافلو، هالابينو، كزبرة طازجة</p></div></div>
+        </div>
+
+        <div class="section">
+          <h2>DESSERTS <span>الحلويات</span></h2>
+          <div class="food-item"><div><h3>Oreo Cheesecake</h3><p>Forest Berry Sauce, Vanilla Ice Cream, Chantilly</p></div><div class="price">40</div><div class="arabic ar-box"><h3>تشيزكيك أوريو</h3><p>صوص توت مشكل، آيس كريم فانيليا، كريمة شانتيلي</p></div></div>
+          <div class="food-item"><div><h3>Ice Cream Scoop</h3><p>Chocolate, Vanilla or Strawberry</p></div><div class="price">10</div><div class="arabic ar-box"><h3>سكوب آيس كريم</h3><p>شوكولاتة، فانيليا أو فراولة</p></div></div>
+          <div class="food-item"><div><h3>Fruit Platter</h3><p>Seasonal Fruits</p></div><div class="price">35</div><div class="arabic ar-box"><h3>طبق فواكه</h3><p>فواكه موسمية</p></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="waves"></div>
+  </div>
+</section>
+
+<section id="drinks" class="page">
+  <div class="sheet">
+    <div class="leaf tl">🌿</div><div class="leaf tr">🌿</div><div class="leaf br">🌿</div>
+
+    <div class="layout-drinks">
+      <div class="column">
+        <div class="logo">
+          <h1>BEACH<br>BAR</h1>
+          <p>≈≈≈</p>
+          <p>DRINKS MENU</p>
+          <p class="arabic">قائمة الطعام</p>
+        </div>
+
+        <div class="happy">
+          <h2>HAPPY HOUR</h2>
+          <div class="arabic" style="text-align:center;color:var(--teal);font-size:26px;font-weight:800">الساعة السعيدة</div>
+          <div class="time">3:00 PM - 5:00 PM<br><span class="arabic">٣:٠٠ مساءً - ٥:٠٠ مساءً</span></div>
+
+          <div class="happy-grid">
+            <div class="happy-box"><h3>BEER <span class="arabic">بيرة</span></h3><div class="drink-row"><span>Corona</span><strong>27</strong></div><div class="drink-row"><span>Heineken</span><strong>27</strong></div><div class="drink-row"><span>Carlsberg</span><strong>27</strong></div><div class="drink-row"><span>Savanna</span><strong>27</strong></div></div>
+            <div class="happy-box"><h3>WINE <span class="arabic">نبيذ</span></h3><div class="drink-row"><span>Table Mountain<br><small>(Merlot / Sauvignon Blanc)</small></span><strong>33</strong></div><div class="drink-row"><span>Rosé D’ Anjou</span><strong>42</strong></div></div>
+            <div class="happy-box"><h3>SPIRITS <span class="arabic">مشروبات روحية</span></h3><div class="drink-row"><span>Vodka Absolut</span><strong>30</strong></div><div class="drink-row"><span>Gin Bombay Sapphire</span><strong>30</strong></div><div class="drink-row"><span>Whisky J&B</span><strong>36</strong></div><div class="drink-row"><span>Rum Bacardi</span><strong>36</strong></div></div>
+            <div class="happy-box"><h3>LIQUOR <span class="arabic">ليكير</span></h3><div class="drink-row"><span>Jägermeister</span><strong>30</strong></div></div>
+          </div>
+          <p style="text-align:center;font-size:13px">Selected items only during happy hour<br><span class="arabic">العرض على أصناف محددة فقط خلال الساعة السعيدة</span></p>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section"><h2>BEERS <span>بيرة</span></h2>
+          <div class="drink-row"><span>Carlsberg</span><strong>45</strong></div><div class="drink-row"><span>Corona</span><strong>45</strong></div><div class="drink-row"><span>Heineken</span><strong>45</strong></div><div class="drink-row"><span>Savanna Dry Cider</span><strong>45</strong></div>
+        </div>
+        <div class="section"><h2>WINE <span>نبيذ</span></h2>
+          <div class="drink-row"><span>Calvet Limited Sauvignon Blanc</span><strong>55 / 220</strong></div><div class="drink-row"><span>Table Mountain Sauvignon Blanc</span><strong>70 / 320</strong></div><div class="drink-row"><span>Table Mountain Chenin Blanc</span><strong>70 / 320</strong></div><div class="drink-row"><span>Calvet Varietals Cabernet Sauvignon</span><strong>55 / 220</strong></div><div class="drink-row"><span>Table Mountain Merlot</span><strong>70 / 320</strong></div><div class="drink-row"><span>Rosé D’ Anjou</span><strong>70 / 280</strong></div>
+        </div>
+        <div class="section"><h2>SPARKLING WINE / CHAMPAGNE <span>شامبانيا</span></h2>
+          <div class="drink-row"><span>Varichon & Clerc</span><strong>70 / 300</strong></div><div class="drink-row"><span>Freixenet Rosado</span><strong>80 / 320</strong></div><div class="drink-row"><span>Billecart - Salmon</span><strong>2300</strong></div><div class="drink-row"><span>Dom Pérignon</span><strong>5300</strong></div>
+        </div>
+        <div class="section"><h2>APÉRITIF / LIQUOR <span>ليكير</span></h2><div class="drink-row"><span>Jägermeister</span><strong>60 / 700</strong></div></div>
+        <div class="section"><h2>WHISKEY <span>ويسكي</span></h2>
+          <div class="drink-row"><span>Jim Beam</span><strong>50 / 800</strong></div><div class="drink-row"><span>Jameson</span><strong>60 / 1150</strong></div><div class="drink-row"><span>Jack Daniel’s</span><strong>60 / 1400</strong></div><div class="drink-row"><span>Black Label</span><strong>70 / 1600</strong></div><div class="drink-row"><span>Chivas Regal</span><strong>65 / 1600</strong></div>
+        </div>
+        <div class="section"><h2>GIN <span>جين</span></h2>
+          <div class="drink-row"><span>Beefeater</span><strong>50 / 1000</strong></div><div class="drink-row"><span>Bombay Sapphire</span><strong>60 / 1200</strong></div><div class="drink-row"><span>Hendrick’s</span><strong>70 / 1200</strong></div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section"><h2>TEQUILA <span>تيكيلا</span></h2>
+          <div class="drink-row"><span>Jose Cuervo Silver</span><strong>50 / 900</strong></div><div class="drink-row"><span>Jose Cuervo Gold</span><strong>50 / 900</strong></div><div class="drink-row"><span>Patrón Silver</span><strong>95 / 2100</strong></div><div class="drink-row"><span>Patrón Reposado</span><strong>110 / 2400</strong></div><div class="drink-row"><span>Patrón Café</span><strong>70 / 1300</strong></div>
+        </div>
+        <div class="section"><h2>COCKTAILS <span>كوكتيلات</span></h2>
+          <div class="drink-row"><span>Classic Mojito</span><strong>60</strong></div><div class="drink-desc">Bacardi, mint, lime, brown sugar, soda water</div>
+          <div class="drink-row"><span>Passionfruit Mojito</span><strong>60</strong></div><div class="drink-desc">Bacardi, mint, passionfruit, lime, brown sugar, soda water</div>
+          <div class="drink-row"><span>Classic Margarita</span><strong>60</strong></div><div class="drink-desc">Tequila gold, tequila silver, triple sec, lemon juice</div>
+          <div class="drink-row"><span>Spicy Margarita</span><strong>60</strong></div><div class="drink-desc">Tequila gold, tequila silver, triple sec, lemon juice, Tabasco</div>
+          <div class="drink-row"><span>Piña Colada</span><strong>60</strong></div><div class="drink-desc">Rum, coconut syrup, pineapple juice</div>
+          <div class="drink-row"><span>Aperol Spritz</span><strong>70</strong></div><div class="drink-desc">Aperol, sparkling wine, orange, soda water</div>
+        </div>
+        <div class="section"><h2>SHOTS <span>شوتات</span></h2>
+          <div class="drink-row"><span>Jäger Bomb</span><strong>60</strong></div><div class="drink-desc">Jägermeister, Red Bull</div>
+          <div class="drink-row"><span>Blue Kamikaze</span><strong>50</strong></div><div class="drink-desc">Stolichnaya, Triple Sec, lemon juice, Blue Curaçao</div>
+          <div class="drink-row"><span>Brain Damage</span><strong>50</strong></div><div class="drink-desc">Peach Schnapps, Baileys, Grenadine</div>
+          <div class="drink-row"><span>Doudou Shot</span><strong>50</strong></div><div class="drink-desc">Stolichnaya, lemon, Tabasco, green olive</div>
+        </div>
+        <div class="section"><h2>RUM <span>روم</span></h2>
+          <div class="drink-row"><span>Bacardi</span><strong>50 / 950</strong></div><div class="drink-row"><span>Captain Morgan Spiced</span><strong>50 / 1200</strong></div><div class="drink-row"><span>Havana Club 7 Year</span><strong>60 / 1000</strong></div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section"><h2>SOFT DRINKS <span>مشروبات غازية</span></h2>
+          <div class="drink-row"><span>Coca-Cola</span><strong>25</strong></div><div class="drink-row"><span>Coca-Cola Light</span><strong>25</strong></div><div class="drink-row"><span>Sprite</span><strong>25</strong></div><div class="drink-row"><span>Fanta</span><strong>25</strong></div><div class="drink-row"><span>Schweppes Ginger Ale</span><strong>25</strong></div><div class="drink-row"><span>Red Bull</span><strong>35</strong></div><div class="drink-row"><span>Red Bull Sugar Free</span><strong>35</strong></div>
+        </div>
+        <div class="section"><h2>MOCKTAILS & SHAKES <span>موكتيلات و شيك</span></h2>
+          <div class="drink-row"><span>Lemon Mint Cooler</span><strong>40</strong></div><div class="drink-row"><span>Passion Fruit Lemonade</span><strong>40</strong></div><div class="drink-row"><span>Virgin Piña Colada</span><strong>40</strong></div><div class="drink-row"><span>Virgin Mojito</span><strong>40</strong></div>
+        </div>
+        <div class="section"><h2>WATER <span>ماء</span></h2>
+          <div class="drink-row"><span>Still Mineral Water (Small / Large)</span><strong>27 / 37</strong></div><div class="drink-row"><span>Sparkling Mineral Water (Small / Large)</span><strong>27 / 37</strong></div><div class="drink-row"><span>Al Rayyan (Small / Large)</span><strong>20 / 30</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="waves"></div>
+  </div>
+</section>
+
+<script>
+function showPage(page, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
